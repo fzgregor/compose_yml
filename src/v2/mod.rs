@@ -97,6 +97,7 @@ serde_include!("file");
 serde_include!("service");
 serde_include!("volume");
 serde_include!("network");
+serde_include!("secret");
 
 // Service-related types.
 serde_include!("build");

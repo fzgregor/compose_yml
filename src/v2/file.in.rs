@@ -24,6 +24,11 @@ pub struct File {
             deserialize_with = "deserialize_map_struct_or_null")]
     pub networks: BTreeMap<String, Network>,
 
+    /// secrets used by this app.
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty",
+           deserialize_with = "deserialize_map_struct_or_null")]
+    pub secrets: BTreeMap<String, Secret>,
+
     /// PRIVATE.  Mark this struct as having unknown fields for future
     /// compatibility.  This prevents direct construction and exhaustive
     /// matching.  This needs to be be public because of
@@ -34,7 +39,7 @@ pub struct File {
 }
 
 derive_standard_impls_for!(File, {
-    version, services, volumes, networks, _hidden
+    version, services, volumes, networks, secrets, _hidden
 });
 
 impl File {
@@ -103,6 +108,7 @@ impl Default for File {
             services: Default::default(),
             volumes: Default::default(),
             networks: Default::default(),
+            secrets: Default::default(),
             _hidden: (),
         }
     }

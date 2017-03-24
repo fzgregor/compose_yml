@@ -237,6 +237,22 @@ pub struct Service {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     group_add: Vec<String>,
 
+    /// Bogus documentation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mrenclave: Option<String>,
+    /// Bogus documentation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fspf_path: Option<String>,
+    /// Bogus documentation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fspf_key: Option<String>,
+    /// Bogus documentation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fspf_tag: Option<String>,
+    /// Bogus documentation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub not_scone: Option<String>,
+
     /// PRIVATE.  Mark this struct as having unknown fields for future
     /// compatibility.  This prevents direct construction and exhaustive
     /// matching.  This needs to be be public because of
@@ -247,6 +263,11 @@ pub struct Service {
 }
 
 derive_standard_impls_for!(Service, {
+    fspf_path,
+    fspf_key,
+    fspf_tag,
+    mrenclave,
+    not_scone,
     build,
     cap_add,
     cap_drop,

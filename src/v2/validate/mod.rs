@@ -16,6 +16,18 @@ const COMPOSE_2_0_SCHEMA_STR: &'static str = include_str!("config_schema_v2.0.js
 /// Schema for `docker-compose.yml` version 2.1.
 const COMPOSE_2_1_SCHEMA_STR: &'static str = include_str!("config_schema_v2.1.json");
 
+/// Schema for `docker-compose.yml` version 3.0.
+const COMPOSE_3_0_SCHEMA_STR: &'static str = include_str!("config_schema_v3.0.json");
+
+/// Schema for `docker-compose.yml` version 3.scone.
+const COMPOSE_3_SCONE_SCHEMA_STR: &'static str = include_str!("config_schema_v3.scone.json");
+
+/// Schema for `docker-compose.yml` version 3.1.
+const COMPOSE_3_1_SCHEMA_STR: &'static str = include_str!("config_schema_v3.1.json");
+
+/// Schema for `docker-compose.yml` version 3.1.scone.
+const COMPOSE_3_1_SCONE_SCHEMA_STR: &'static str = include_str!("config_schema_v3.1.scone.json");
+
 /// Load and parse a built-in JSON file, panicking if it contains invalid
 /// JSON.
 fn load_schema_json(json: &'static str) -> serde_json::Value {
@@ -33,6 +45,22 @@ lazy_static! {
     /// Parsed schema for `docker-compose.yml` version 2.1.
     static ref COMPOSE_2_1_SCHEMA: serde_json::Value =
         load_schema_json(COMPOSE_2_1_SCHEMA_STR);
+
+    /// Parsed schema for `docker-compose.yml` version 3.0.
+    static ref COMPOSE_3_0_SCHEMA: serde_json::Value =
+        load_schema_json(COMPOSE_3_0_SCHEMA_STR);
+
+    /// Parsed schema for `docker-compose.yml` version 3.scone.
+    static ref COMPOSE_3_SCONE_SCHEMA: serde_json::Value =
+        load_schema_json(COMPOSE_3_SCONE_SCHEMA_STR);
+
+    /// Parsed schema for `docker-compose.yml` version 3.1.
+    static ref COMPOSE_3_1_SCHEMA: serde_json::Value =
+        load_schema_json(COMPOSE_3_1_SCHEMA_STR);
+
+    /// Parsed schema for `docker-compose.yml` version 3.1.scone.
+    static ref COMPOSE_3_1_SCONE_SCHEMA: serde_json::Value =
+        load_schema_json(COMPOSE_3_1_SCONE_SCHEMA_STR);
 }
 
 /// Validate a `File` against the official JSON schema provided by
@@ -41,6 +69,10 @@ pub fn validate_file(file: &File) -> Result<()> {
     let schema_value = match &file.version[..] {
         "2" => COMPOSE_2_0_SCHEMA.deref(),
         "2.1" => COMPOSE_2_1_SCHEMA.deref(),
+        "3" => COMPOSE_3_0_SCHEMA.deref(),
+        "3.scone" => COMPOSE_3_SCONE_SCHEMA.deref(),
+        "3.1" => COMPOSE_3_1_SCHEMA.deref(),
+        "3.1.scone" => COMPOSE_3_1_SCONE_SCHEMA.deref(),
         vers => return Err(ErrorKind::UnsupportedVersion(vers.to_owned()).into()),
     };
 
